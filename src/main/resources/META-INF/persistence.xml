@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="ejosUnit" transaction-type="JTA">
+    <description>
+            Persistence unit for EJOS_test
+        </description>
+    <jta-data-source>java:jboss/postgresqlDS</jta-data-source>
+    <class>cn.edu.sdut.softlab.entity.Achievement</class>
+    <class>cn.edu.sdut.softlab.entity.Admin</class>
+    <class>cn.edu.sdut.softlab.entity.Record</class>
+    <class>cn.edu.sdut.softlab.entity.Student</class>
+    <class>cn.edu.sdut.softlab.entity.Teacher</class>
+    <class>cn.edu.sdut.softlab.entity.Team</class>
+    <class>cn.edu.sdut.softlab.entity.News</class>
+    <class>cn.edu.sdut.softlab.entity.Question</class>
+    <properties>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+    </properties>
+  </persistence-unit>
+</persistence>

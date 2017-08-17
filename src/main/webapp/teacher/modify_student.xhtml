@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <f:view>
+        <f:event type="preRenderView" listener="#{login.checkTeacherUser}"/>
+        <h:head>
+            <meta charset="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+            <title>Dashboard</title>
+            <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="../assets/css/datepicker3.css" rel="stylesheet"/>
+            <link href="../assets/css/styles.css" rel="stylesheet"/>
+            <!--[if lt IE 9]>
+            <script src="js/html5shiv.js"></script>
+            <script src="js/respond.min.js"></script>
+            <![endif]-->
+        </h:head>
+        <h:body>
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <button class="btn btn-primary pull-right" style="margin-top: 7px;" data-toggle="modal" data-target="#myModal" type="button">
+                            Messages <span class="badge">#{newsController.newsNum}</span>
+                        </button>
+                        <a class="navbar-brand" href="#"><span>Lumino</span>Admin</a>
+                        <ul class="user-menu">
+                            <li class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> #{login.currentUser.name} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="modify_own.jsf"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                                    <li><a href="settings.jsf"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                                    <li style="padding-left: 20px;">
+                                        <h:form>
+                                            <p:commandButton action="#{login.logout}" value="LogOut" styleClass="logout">
+                                                <span class="glyphicon glyphicon-log-out"></span> 
+                                            </p:commandButton>
+                                        </h:form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </nav>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">你有未完成的作业!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h:form id="form">
+                                <p:accordionPanel value="#{newsController.newsByStu}" var="news">
+                                    <p:tab>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <h:outputText value="#{news.content}" />
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </h:form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary"><a href="news_list.jsf" style="color: #ffffff;">More</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+                <form role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search"/>
+                    </div>
+                </form>
+                <ul class="nav menu">
+                    <li class="active"><a href="home.jsf"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+                    <li><p:link href="ReadyKnow.jsf"><span class="glyphicon glyphicon-th">Ready&nbsp;To&nbsp;Know</span> </p:link></li>
+                    <li><a href="Item_query_filter.jsf"><span class="glyphicon glyphicon-stats"></span> Item&nbsp;Filter</a></li>
+                    <li><a href="LendItem.jsf"><span class="glyphicon glyphicon-list-alt"></span> LendItem</a></li>
+                    <li><a href="forms.html"><span class="glyphicon glyphicon-pencil"></span> Forms</a></li>
+                    <li><a href="panels.html"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>
+                    <li class="parent ">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-list"></span> Item Manager 
+                            <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
+                                <em class="glyphicon glyphicon-s glyphicon-plus"></em>
+                            </span> 
+                        </a>
+                        <ul class="children collapse" id="sub-item-1">
+                            <li>
+                                <a class="" href="Item.jsf">
+                                    <span class="glyphicon glyphicon-share-alt"></span> Add Item
+                                </a>
+                            </li>
+                            <li>
+                                <a class="" href="Item_remove.jsf">
+                                    <span class="glyphicon glyphicon-share-alt"></span> Drop Item
+                                </a>
+                            </li>
+                            <li>
+                                <a class="" href="Item_modify.jsf">
+                                    <span class="glyphicon glyphicon-share-alt"></span> Modify Item
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="parent ">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-list"></span> User Manager 
+                            <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right">
+                                <em class="glyphicon glyphicon-s glyphicon-plus"></em>
+                            </span> 
+                        </a>
+                        <ul class="children collapse" id="sub-item-2">
+                            <li>
+                                <a class="" href="users.jsf">
+                                    <span class="glyphicon glyphicon-share-alt"></span> Add User
+                                </a>
+                            </li>
+                            <li>
+                                <a class="" href="Stuff_remove.jsf">
+                                    <span class="glyphicon glyphicon-share-alt"></span> Drop User
+                                </a>
+                            </li>
+                            <li>
+                                <a class="" href="Stuff_modify.jsf">
+                                    <span class="glyphicon glyphicon-share-alt"></span> Modify User
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href="index.jsf"><span class="glyphicon glyphicon-user"></span> Login Page</a></li>
+                </ul>
+            </div><!--/.sidebar-->
+
+            <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+                        <li class="active">Dashboard</li>
+                    </ol>
+                </div><!--/.row-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Dashboard</h1>
+                    </div>  
+                </div><!--/.row-->
+
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <h:messages/>
+                    <p:dataTable id="dataTable" var="stu" value="#{stuController.all}" editable="true" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Row Editing
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{stuController.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{stuController.onRowCancel}" update=":form:msgs" />
+
+                        <p:column headerText="ID" rendered="false">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{stu.id}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInput" value="#{stuController.currentstu.id = stu.id}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="StudentNum">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{stu.studentNum}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{stuController.currentstu.studentNum}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="IdCard">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{stu.idCard}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{stuController.currentstu.idCard}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Name">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{stu.name}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{stuController.currentstu.name}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Password">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{stu.password}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{stuController.currentstu.password}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Team">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{stu.team.name}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{stuController.currentstu.team.id}" converter="#{teamConverter}"
+                                                     required="true" style="width:100%">
+                                        <f:selectItems value="#{teamController.all}" var="team" itemLabel="#{team.name}" itemValue="#{team.id}" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column style="width:64px">
+                            <p:rowEditor />
+                        </p:column>
+                        <p:column style="width: 64px" headerText="Delete">
+                            <h:commandButton action="#{stuController.delete(stu)}" value="Delete"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            In total there are #{fn:length(stuController.all)} Items.
+                        </f:facet>
+                    </p:dataTable>
+                    <p:blockUI block="dataTable" trigger="dataTable">
+                        LOADING...<br />
+                        <p:graphicImage value="/../assets/img/loading/loading.gif" />
+                    </p:blockUI>
+                </h:form>
+            </div>	<!--/.main-->
+            <script src="../assets/js/jquery-1.11.1.min.js"></script>
+            <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+            <script src="../assets/js/chart.min.js"></script>
+            <script src="../assets/js/chart-data.js"></script>
+            <script src="../assets/js/easypiechart.js"></script>
+            <script src="../assets/js/easypiechart-data.js"></script>
+            <script src="../assets/bootstrap/js/bootstrap-datepicker.js"></script>
+            <script>
+                $('#calendar').datepicker({
+                });
+
+                !function ($) {
+                    $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+                        $(this).find('em:first').toggleClass("glyphicon-minus");
+                    });
+                    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+                }(window.jQuery);
+
+                $(window).on('resize', function () {
+                    if ($(window).width() > 768)
+                        $('#sidebar-collapse').collapse('show')
+                })
+            </script>
+        </h:body>
+    </f:view>
+</html>
