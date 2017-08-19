@@ -52,12 +52,16 @@ public class QuestionController {
 	@Inject
 	QuestionFacade questionService;
 
-	private Student currentStu ;//= (Student) loginController.getCurrentUser();
+	private Student currentStu = null;
 
 	@PostConstruct
 	public void init(){
-		Student s = (Student) loginController.getCurrentUser();
-		this.currentStu = s ;
+		if (!(loginController.getCurrentUser().getLevel().equals("Admin") 
+        		|| loginController.getCurrentUser().getLevel().equals("Teacher"))) {
+			Student s = (Student) loginController.getCurrentUser();
+			this.currentStu = s ;
+		}
+		//Student s = (Student) loginController.getCurrentUser();
 	}
 	
 	public void setCurrentStu(Student s) {

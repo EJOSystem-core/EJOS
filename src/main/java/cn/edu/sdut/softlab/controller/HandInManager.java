@@ -368,7 +368,9 @@ public class HandInManager implements Serializable {
 			    BufferedWriter bw = new BufferedWriter(fr);
 
 			     //除标签
-			    String writeString = expReport.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
+			    String writeString = expReport.getAnswerText().replaceAll("<[^>]*>", "");
+			    							/*.replaceAll("&nbsp;","").replaceAll("<div *>","")
+			    							.replaceAll("<span *>","")*/
 
 			    bw.write(writeString);//将获取的代码内容存到文件中
 			    bw.close();
@@ -548,7 +550,7 @@ public class HandInManager implements Serializable {
 	}
 
 	private String constitutePath(){
-		String dir="/home/morpheus/ejosData/";
+		String dir="/home/huanlu/ejosData/";
 		String path=dir+currentUser.getId()+"/"+currentQuestion.getId()+"/";
 		return path;
 	}
