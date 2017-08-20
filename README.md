@@ -20,3 +20,7 @@ start wildfly server(in wildfly/): ./standalone.sh open mysql service: service m
 如何参与
 
 PR
+
+
+[![Build Status](https://travis-ci.org/EJOSystem-core/EJOS.svg?branch=master)](https://travis-ci.org/EJOSystem-core/EJOS)
+
