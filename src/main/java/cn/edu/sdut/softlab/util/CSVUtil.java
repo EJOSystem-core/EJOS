@@ -169,8 +169,10 @@ public class CSVUtil {
 //    }
 
     private Student createStudent(String[] stuInf) {
+        for (String string : stuInf) {
+            logger.info(string);
+        }
         Student stu = new Student();
-        stu.setId(Integer.valueOf(stuInf[0]));
         stu.setName(stuInf[1]);
         stu.setPassword(stuInf[2]);
         stu.setIdCard(stuInf[3]);
