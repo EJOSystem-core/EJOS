@@ -217,7 +217,7 @@
                 					value="#{handInManager.currentQuestion}"
                 					converter="#{questionConverter}" onchange="submit()"
                 					valueChangeListener="#{questionManager.selectedChanged}"
-                					update="runAndResult">
+                					>
                 					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
                 					<f:selectItem itemLabel="请选择问题：" />
 
@@ -246,7 +246,7 @@
                         <div>
 
                           <p:editor id="editor" controls="cut copy paste undo redo"
-                            escape="true" widgetVar="editorWidget"
+                            widgetVar="editorWidget"
                             value="#{expReport.answerText}" width="600" class="ui-editor" />
 
                           <p:commandButton value="clear" type="button"
