@@ -19,7 +19,9 @@ package cn.edu.sdut.softlab.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
+//import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import cn.edu.sdut.softlab.entity.Achievement;
@@ -32,7 +34,7 @@ import cn.edu.sdut.softlab.entity.Student;
  * TODO
  */
 @Named("achievementService")
-@RequestScoped
+@Stateless
 public class AchievementFacade extends AbstractFacade<Achievement> {
 
 	public AchievementFacade() {
