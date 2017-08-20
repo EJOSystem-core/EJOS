@@ -61,7 +61,6 @@ import cn.edu.sdut.softlab.entity.Question;
 @SessionScoped
 @Named("handInManager")
 public class HandInManager implements Serializable {
-//	private static Process process ;
 	private static final long serialVersionUID = 7965455427888195913L;
 
 	@Inject
@@ -303,7 +302,6 @@ public class HandInManager implements Serializable {
 			     result = result + "\n" + line;
 			     log.info(result);
 			}
-//         result.replaceFirst("\n","");//移除第一行前多的"\n"   未生效？！
 
       read.close();
 		} catch (FileNotFoundException e) {
@@ -356,8 +354,6 @@ public class HandInManager implements Serializable {
 		   String result = "";
 			File sourceFile = new File( constitutePath() + expReport.getClassName() +".java");//保存源代码
 
-
-
 			try {
 
 			    if(sourceFile.exists()){
@@ -368,7 +364,7 @@ public class HandInManager implements Serializable {
 			    BufferedWriter bw = new BufferedWriter(fr);
 
 			     //除标签
-			    String writeString = expReport.getAnswerText().replaceAll("<[^>]*>", "");
+			    String writeString = expReport.getAnswerText().replaceAll("<[^>]*>", "").replaceAll("&nbsp;","");
 			    							/*.replaceAll("&nbsp;","").replaceAll("<div *>","")
 			    							.replaceAll("<span *>","")*/
 
@@ -386,16 +382,6 @@ public class HandInManager implements Serializable {
 			log.info("调用compileJava()");
 			Runtime runtime = Runtime.getRuntime();
 			try {
-//				File classFile = new File(constitutePath() + expReport.getClassName() + ".class");//如果文件存在，则删除该文件
-//				if (classFile.exists()) {
-//					classFile.delete();
-//				}
-
-//				File outputFile = new File(constitutePath()+"output.txt");//如果文件存在，则删除该文件
-//				if (outputFile.exists()) {
-//					outputFile.delete();
-//				}
-
 				//将编译的错误保存下来 2>>
 				String cmdCompile = "javac " + expReport.getClassName() + ".java 2> err.txt";
 
@@ -439,8 +425,6 @@ public class HandInManager implements Serializable {
 				}
 
 		//运行
-			log.info("调用runJava()");
-//			Runtime runtime = Runtime.getRuntime();
 				try {
 					String cmd = "java " + expReport.getClassName() + " > output.txt";
 					String[] cmdarray = {
@@ -474,7 +458,6 @@ public class HandInManager implements Serializable {
 					     result = result + "\n" + line;
 					     log.info(result);
 					}
-//		         result.replaceFirst("\n","");//移除第一行前多的"\n"   未生效？！
 
 		      read.close();
 				} catch (FileNotFoundException e) {
@@ -483,31 +466,31 @@ public class HandInManager implements Serializable {
 					e.printStackTrace();
 				}
 
-				log.info("--------------------------------------------------------------"+result);
 				expReport.setResult(result);//返回，并由button刷新到前台
 
 				try {
-					utx.begin();
+						utx.begin();
+						Achievement a = achievementService.findByQuestionAndStudent(currentQuestion, currentUser);
+						//如果存在（查询到）该条目，则更新
+						if(!(a==null)){
 
-					Achievement a = achievementService.findByQuestionAndStudent(currentQuestion, currentUser);
-					//如果存在（查询到）该条目，则更新
-					if(!(a==null)){
-
-						a.setAnswer(expReport.getAnswerText());
-						a.setResult(result);
-						a.setScore(calculateScore(result,currentQuestion.getResult()));
-						a.setAnswerPath(constitutePath());
-
-					   achievementService.edit(a);
-					//否则创建
-				   }else{
-					   Achievement ach=new Achievement(
-								expReport.getAnswerText(),
-								constitutePath(), result,
-								calculateScore(result,currentQuestion.getResult()),
-								currentQuestion, currentUser);
-					   achievementService.create(ach);
-				   	}
+							a.setAnswer(expReport.getAnswerText());
+							a.setResult(result);
+							a.setScore(calculateScore(result,currentQuestion.getResult()));
+							a.setAnswerPath(constitutePath());
+							
+						   achievementService.edit(a);
+						//否则创建
+                   }else{
+						   Achievement ach=new Achievement(
+									expReport.getAnswerText(),
+									constitutePath(), result,
+									calculateScore(result,currentQuestion.getResult()),
+									currentQuestion, currentUser);
+						   achievementService.create(ach);
+						}
+				} catch (Exception e) {
+						e.printStackTrace();
 				} finally {
 					utx.commit();
 				}
@@ -557,11 +540,6 @@ public class HandInManager implements Serializable {
 
 	//计算成绩的 算法，是什么好呢？
 	private int calculateScore(String result,String answerResult){
-		//每一行答案在读取时多一个文件结束符EOF?  \0? -1?      = 不多！  前面多一个\n ！
-//		answerResult="\n"+answerResult;
-
-//		log.info("-------------------------------------------------" + result + "===" + result.length());
-//		log.info("-------------------------------------------------" + answerResult + "===" + answerResult.length());
 
 		if(result.equals(answerResult)){
 			return 80;
