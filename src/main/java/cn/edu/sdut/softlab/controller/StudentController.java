@@ -170,12 +170,8 @@ public class StudentController {
      */
     public void addSingleStudentByList(Student s) throws Exception{
         try {
-            Integer status1 = utx.getStatus();
-            logger.info("Status1" + status1.toString());
             utx.begin();
-            Integer status2 = utx.getStatus();
-            logger.info("Status2" + status2.toString());
-            studentSerivce.create(s);
+            em.persist(s);
             utx.commit();
         } finally{
             logger.log(Level.INFO, "{0} \u6dfb\u52a0\u6210\u529f!", s.getName());
