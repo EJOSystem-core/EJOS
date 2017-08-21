@@ -79,9 +79,6 @@ public class CSVUtil {
                 //去掉数据中的""引号,并将其根据分隔符转换成字符串
                 String data = stringUtil.stripSpaces(csvReader.getRawRecord(),'"');
                 String[] stuInf = stringUtil.stringAnalytical(data, ',');
-                for (int i = 0; i < stuInf.length; i++) {
-                    System.out.println(stuInf[i]);
-                }
                 Student stu = createStudent(stuInf);
                 stuContoller.addSingleStudentByList(stu);
             }
@@ -169,9 +166,6 @@ public class CSVUtil {
 //    }
 
     private Student createStudent(String[] stuInf) {
-        for (String string : stuInf) {
-            logger.info(string);
-        }
         Student stu = new Student();
         stu.setName(stuInf[1]);
         stu.setPassword(stuInf[2]);
