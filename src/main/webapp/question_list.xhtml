@@ -181,11 +181,15 @@
                                         <h:outputText value="#{ques.id}" />
                                     </p:column>
 
-                                    <p:column filterBy="#{ques.introduce}" headerText="Introduce" footerText="contains" filterMatchMode="contains">
+                                    <p:column filterBy="#{ques.introduce}" headerText="Introduce" footerText="" filterMatchMode="contains">
                                         <h:outputText value="#{ques.introduce}" />
                                     </p:column>
                                     
-                                    <p:column filterBy="#{ques.question}" headerText="Question" footerText="contains" filterMatchMode="contains">
+                                    <p:column filterBy="#{ques.diffculty}" headerText="Diffculty" footerText="" filterMatchMode="contains">
+                                        <h:outputText value="#{ques.diffculty}" />
+                                    </p:column>
+                                    
+                                    <p:column filterBy="#{ques.question}" headerText="Question" footerText="" filterMatchMode="contains">
                                         <h:outputText value="#{ques.question}" />
                                     </p:column>
 
@@ -207,71 +211,6 @@
                                     </p:column>
                                 </p:dataTable>
                             </h:form>
-                        </div>
-                        <div class="col-xs-12 col-md-12 col-lg-12 tab-pane" role="tablepanel" id="addSingle">
-                            <div class="form-bottom">   
-                                <h:form role="form" class="login-form"
-                                        id="loginForm">
-                                    <h:panelGrid columns="1">
-                                        <div class="form-group">
-                                            <label>介绍:</label>
-                                            <p:inputText value="#{questionController.currentquestion.introduce}" required="true" 
-                                                         requiredMessage="请输入要添加的问题的介绍"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>题目内容:</label>
-                                            <p:inputText value="#{questionController.currentquestion.question}" rendered="true" 
-                                                         requiredMessage="请输入问题内容"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>题目路径:</label>
-                                            <p:inputText value="#{questionController.currentquestion.path}" rendered="true" 
-                                                         requiredMessage="请输入题目路径"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>难度:</label>
-                                            <p:inputText value="#{questionController.currentquestion.diffculty}" rendered="true" 
-                                                         requiredMessage="请输入题目难度"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>答案:</label>
-                                            <p:inputText value="#{questionController.currentquestion.answer}" rendered="true" 
-                                                         requiredMessage="请输入题目答案"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>结果:</label>
-                                            <p:inputText value="#{questionController.currentquestion.result}" rendered="true" 
-                                                         requiredMessage="请输入题目结果"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>请选择班级:</label>
-                                            <h:selectOneMenu value="#{questionController.currentquestion.team.id}" converter="#{teamConverter}"
-                                                             required="true" style="width:200px">
-                                                <f:selectItems value="#{teamController.all}" var="team" itemLabel="#{team.name}" itemValue="#{team.id}" />
-                                            </h:selectOneMenu>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>截止时间:</label>
-                                            <p:inputMask value="#{questionController.currentquestion.deadline}" mask="9999-99-99 99:99:99"
-                                                         rendered="true" requiredMessage="请输入题目截止时间">
-                                                <f:converter converterId="javax.faces.DateTime"/>
-                                            </p:inputMask>
-                                        </div>
-                                    </h:panelGrid>
-                                    <h:commandButton id="addquestion" value="Add Single Question"
-                                                     action="#{questionController.addQuestion}"
-                                                     styleClass="button"/>
-                                </h:form>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-md-12 col-lg-12 tab-pane" role="tablepanel" id="delete">
-                            <div class="form-bottom">
-                                <h:form>
-                                    <h:outputText value="Delect Which Question"/>
-                                    <p:inputText id="delectQuestion" style="width: 150px" value="#{questionController.delectName}"/>
-                                    <h:commandButton action="#{questionController.deleteQuestion}" value="Delete"/>
-                                </h:form>
-                            </div>
                         </div>
                     </div>
                 </div><!--/.row-->
