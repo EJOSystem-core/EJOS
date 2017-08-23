@@ -21,7 +21,7 @@ import javax.inject.Inject;
  * @author huanlu
  */
 @ManagedBean(name = "dateConverter")
-@FacesConverter(forClass = News.class, value = "dateConverter")
+@FacesConverter(forClass = News.class)
 public class DateConverter implements Converter, Serializable {
 
     @Inject

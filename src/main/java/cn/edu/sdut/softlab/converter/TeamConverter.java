@@ -16,7 +16,7 @@ import javax.inject.Inject;
  *
  */
 @ManagedBean(name = "teamConverter")
-@FacesConverter(forClass = Team.class, value = "myTeamConverter")
+@FacesConverter(forClass = Team.class)
 public class TeamConverter implements Converter, Serializable {
 
     private static final long serialVersionUID = 1L;
