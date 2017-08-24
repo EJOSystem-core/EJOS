@@ -3,6 +3,7 @@ package cn.edu.sdut.softlab.controller;
 import cn.edu.sdut.softlab.entity.Question;
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.entity.Team;
+import cn.edu.sdut.softlab.qualifiers.TeacherAudit;
 import cn.edu.sdut.softlab.service.QuestionFacade;
 import cn.edu.sdut.softlab.service.TeamFacade;
 import java.util.List;
@@ -18,7 +19,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -117,6 +117,7 @@ public class QuestionController {
 		return null;
 	}
 
+        @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
 	public void addQuestion() throws Exception {
 		try {
 			utx.begin();
@@ -131,6 +132,7 @@ public class QuestionController {
 		}
 	}
 
+        @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
 	public void deleteQuestion() throws Exception {
 		try {
 			utx.begin();

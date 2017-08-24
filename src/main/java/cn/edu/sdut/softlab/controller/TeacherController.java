@@ -8,7 +8,6 @@ package cn.edu.sdut.softlab.controller;
 import cn.edu.sdut.softlab.entity.Teacher;
 import cn.edu.sdut.softlab.entity.User;
 import cn.edu.sdut.softlab.qualifiers.AdminAudit;
-import cn.edu.sdut.softlab.qualifiers.Secure;
 import cn.edu.sdut.softlab.qualifiers.TeacherAudit;
 import cn.edu.sdut.softlab.service.TeacherFacade;
 import cn.edu.sdut.softlab.validator.StringIllegalValidator;
@@ -17,11 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.UserTransaction;
@@ -31,7 +30,7 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author huanlu
  */
-@ManagedBean(name = "teaController")
+@Named(value = "teaController")
 @RequestScoped
 public class TeacherController {
 
@@ -127,6 +126,7 @@ public class TeacherController {
                 utx.begin();
                 teacherService.create(currentTea);
                 logger.log(Level.INFO, "Added {0}", currentTea);
+                facesContext.addMessage(null, new FacesMessage("添加成功!"));
             } finally {
                 utx.commit();
             }
@@ -160,7 +160,7 @@ public class TeacherController {
         });
     }
     
-    @TeacherAudit
+    @TeacherAudit(rolesAllowed = "Teacher")
     public String modifyMySelf(Teacher loginTeacher) throws Exception {
         logger.log(Level.INFO, "Student information modify:{0}", loginTeacher.toString());
         try {

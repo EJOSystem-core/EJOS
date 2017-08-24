@@ -26,11 +26,6 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import java.io.BufferedReader;
@@ -48,10 +43,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 
 import cn.edu.sdut.softlab.entity.Student;
-import cn.edu.sdut.softlab.entity.Team;
-import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 import cn.edu.sdut.softlab.service.AchievementFacade;
-import cn.edu.sdut.softlab.controller.ExpReport;
 import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.Question;
 

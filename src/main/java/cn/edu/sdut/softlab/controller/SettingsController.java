@@ -8,15 +8,15 @@ package cn.edu.sdut.softlab.controller;
 import cn.edu.sdut.softlab.service.StudentFacade;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author huanlu
  */
 @ApplicationScoped
-@ManagedBean(name = "settings")
+@Named(value = "settings")
 public class SettingsController {
     
     @Inject

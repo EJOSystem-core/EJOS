@@ -21,7 +21,7 @@ import javax.transaction.UserTransaction;
  * @author huanlu
  */
 @RequestScoped
-@Named("teamController")
+@Named(value = "teamController")
 public class TeamController {
     
     @Inject

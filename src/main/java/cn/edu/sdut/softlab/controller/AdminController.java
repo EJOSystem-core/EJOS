@@ -6,14 +6,14 @@
 package cn.edu.sdut.softlab.controller;
 
 import cn.edu.sdut.softlab.entity.Admin;
-import cn.edu.sdut.softlab.entity.User;
+import cn.edu.sdut.softlab.qualifiers.AdminAudit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
 
@@ -21,8 +21,9 @@ import javax.transaction.UserTransaction;
  *
  * @author huanlu
  */
-@ManagedBean(name = "admController")
+@Named(value = "admController")
 @RequestScoped
+@AdminAudit
 public class AdminController {
     
     @Inject
@@ -47,6 +48,7 @@ public class AdminController {
         this.currentAdmin = currentAdmin;
     }
     
+    @AdminAudit
     public String modifyMySelf(Admin loginAdmin) throws Exception {
         logger.log(Level.INFO, "Admin information modify:{0}", loginAdmin.toString());
         try {

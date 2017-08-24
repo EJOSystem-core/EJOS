@@ -6,6 +6,7 @@
 package cn.edu.sdut.softlab.controller;
 
 import cn.edu.sdut.softlab.entity.Student;
+import cn.edu.sdut.softlab.qualifiers.TeacherAudit;
 import cn.edu.sdut.softlab.util.CSVUtil;
 import cn.edu.sdut.softlab.util.StringUtil;
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -24,8 +26,9 @@ import org.primefaces.model.UploadedFile;
  *
  * @author huanlu
  */
-@ManagedBean(name = "fileController")
+@Named(value = "fileController")
 @ApplicationScoped
+@TeacherAudit(rolesAllowed = {"Admin","Teacher"})
 public class FileController {
     
     @Inject

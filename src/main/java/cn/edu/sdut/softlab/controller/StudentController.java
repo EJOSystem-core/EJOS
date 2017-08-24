@@ -8,6 +8,7 @@ package cn.edu.sdut.softlab.controller;
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.entity.Team;
 import cn.edu.sdut.softlab.entity.User;
+import cn.edu.sdut.softlab.qualifiers.TeacherAudit;
 import cn.edu.sdut.softlab.service.StudentFacade;
 import cn.edu.sdut.softlab.util.CSVUtil;
 import cn.edu.sdut.softlab.validator.StringIllegalValidator;
@@ -34,7 +35,7 @@ import org.primefaces.event.RowEditEvent;
  * @author huanlu
  */
 @RequestScoped
-@Named("stuController")
+@Named(value = "stuController")
 public class StudentController {
 
     @Inject
@@ -135,6 +136,7 @@ public class StudentController {
      * @param event
      * @throws Exception 
      */
+    @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
     public void onRowEdit(RowEditEvent event) throws Exception {
         Student editStudent = (Student) event.getObject();
         currentstu.setId(editStudent.getId());
@@ -152,6 +154,7 @@ public class StudentController {
         }
     }
     
+    @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
     public void addSingleStudent()throws Exception{
         try {
             utx.begin();
@@ -168,6 +171,7 @@ public class StudentController {
      * @param s
      * @throws Exception 
      */
+    @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
     public void addSingleStudentByList(Student s) throws Exception{
         try {
             utx.begin();
@@ -188,6 +192,7 @@ public class StudentController {
         currentstu = null;
     }
     
+    @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
     public void modify() throws Exception {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         Student loginStudent = (Student) session.getAttribute("currentUser");
@@ -225,6 +230,7 @@ public class StudentController {
         }
     }
 
+    @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
     public void delete(Student stu) throws Exception {
         logger.log(Level.INFO, "{0}", stu.toString());
         Student delectStu = studentSerivce.findByStuId(stu.getId());

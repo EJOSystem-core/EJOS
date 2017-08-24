@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.UserTransaction;
@@ -20,7 +21,7 @@ import javax.transaction.UserTransaction;
  *
  * @author huanlu
  */
-@ManagedBean(name = "achieveController")
+@Named(value = "achieveController")
 @RequestScoped
 public class AchievementController {
 

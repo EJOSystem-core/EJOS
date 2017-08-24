@@ -5,18 +5,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
-import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.entity.User;
-import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 import cn.edu.sdut.softlab.util.UserProducers;
 import java.util.logging.Level;
 
