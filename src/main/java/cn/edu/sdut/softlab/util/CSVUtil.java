@@ -7,6 +7,7 @@ package cn.edu.sdut.softlab.util;
 
 import cn.edu.sdut.softlab.controller.StudentController;
 import cn.edu.sdut.softlab.entity.Student;
+import cn.edu.sdut.softlab.qualifiers.TeacherAudit;
 import cn.edu.sdut.softlab.service.StudentFacade;
 import cn.edu.sdut.softlab.service.TeamFacade;
 import com.csvreader.CsvReader;
@@ -66,6 +67,7 @@ public class CSVUtil {
      * @throws FileNotFoundException
      * @throws IOException
      */
+    @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
     public void read(UploadedFile file, char delimiter, boolean isNeedHeader) throws FileNotFoundException, IOException, Exception {
         try {
             CsvReader csvReader = new CsvReader(file.getInputstream(), delimiter, Charset.forName("UTF-8"));
@@ -107,6 +109,7 @@ public class CSVUtil {
      * @param stu_team_id 学生班级id
      * @throws Exception 
      */
+    @TeacherAudit(rolesAllowed = {"Teacher","Admin"})
     public void writeWithStudentByTeam(String path,char delimiter,Integer stu_team_id) throws Exception{
         try {
             File f = new File("/home/huanlu/" + path + "/" + teamService.findById(stu_team_id).getName() + ".csv");
