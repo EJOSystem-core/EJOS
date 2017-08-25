@@ -178,7 +178,7 @@
                             <h:form>
                                 <p:dataTable id="dataTable" var="teacher" value="#{teaController.all}" widgetVar="teacherTable"
                                              emptyMessage="No teachers found with given criteria" filteredValue="#{teaController.filterTeachers}"
-                                             rows="15" paginator="true" editable="true" rendered="#{login.adminUser}">
+                                             rows="15" paginator="true" editable="true">
                                     <f:facet name="header">
                                         <p:outputPanel>
                                             <h:outputText value="Search all fields:" />
@@ -242,7 +242,7 @@
                                 <div class="form-bottom">   
                                     <h:form role="form" class="login-form"
                                             id="loginForm">
-                                        <h:panelGrid columns="1" rendered="#{login.adminUser}">
+                                        <h:panelGrid columns="1">
                                             <div class="form-group">
                                                 <label>姓名:</label>
                                                 <p:inputText value="#{teaController.currentTea.name}" required="true" 
@@ -270,7 +270,7 @@
                                             </div>
                                         </h:panelGrid>
                                         <h:commandButton id="addteacher" value="Add Teacher"
-                                                         action="#{teaController.add}" rendered="#{login.adminUser}"
+                                                         action="#{teaController.add}"  
                                                          styleClass="button"/>
                                     </h:form>
                                 </div>
