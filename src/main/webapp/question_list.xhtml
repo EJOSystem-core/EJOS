@@ -10,9 +10,9 @@
             <meta charset="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
             <title>Dashboard</title>
-            <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-            <link href="../assets/css/datepicker3.css" rel="stylesheet"/>
-            <link href="../assets/css/styles.css" rel="stylesheet"/>
+            <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="assets/css/datepicker3.css" rel="stylesheet"/>
+            <link href="assets/css/styles.css" rel="stylesheet"/>
             <!--[if lt IE 9]>
             <script src="js/html5shiv.js"></script>
             <script src="js/respond.min.js"></script>
@@ -158,85 +158,77 @@
                 </div><!--/.row-->
                 <p:messages/>
                 <div class="row">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Question List</a></li>
-                        <li role="presentation"><a href="#addSingle" aria-controls="profile" role="tab" data-toggle="tab">Add Single Question</a></li>
-                        <li role="presentation"><a href="#delete" aria-controls="messages" role="tab" data-toggle="tab">delect</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="col-xs-12 col-md-12 col-lg-12 tab-pane" role="tablepanel" id="home">
-                            <h:form>
-                                <p:dataTable var="ques" value="#{questionController.findAll()}" widgetVar="questionsTable"
-                                             emptyMessage="No question found with given criteria" filteredValue="#{questionController.filteredQuestions}">
+                    <div class="col-xs-12 col-md-12 col-lg-12" id="home">
+                        <h:form>
+                            <p:dataTable var="ques" value="#{questionController.findAll()}" widgetVar="questionsTable"
+                                         emptyMessage="No question found with given criteria" filteredValue="#{questionController.filteredQuestions}">
 
-                                    <f:facet name="header">
-                                        <p:outputPanel>
-                                            <h:outputText value="Search all fields:" />
-                                            <p:inputText id="globalFilter" onkeyup="PF('questionsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                                        </p:outputPanel>
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('questionsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+                                <p:column filterBy="#{ques.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
+                                    <h:outputText value="#{ques.id}" />
+                                </p:column>
+
+                                <p:column filterBy="#{ques.introduce}" headerText="Introduce" footerText="" filterMatchMode="contains">
+                                    <h:outputText value="#{ques.introduce}" />
+                                </p:column>
+
+                                <p:column filterBy="#{ques.diffculty}" headerText="Diffculty" footerText="" filterMatchMode="contains">
+                                    <h:outputText value="#{ques.diffculty}" />
+                                </p:column>
+
+                                <p:column filterBy="#{ques.question}" headerText="Question" footerText="" filterMatchMode="contains">
+                                    <h:outputText value="#{ques.question}" />
+                                </p:column>
+
+                                <p:column filterBy="#{ques.team.id}" headerText="Team" footerText="exact" filterMatchMode="exact">
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('questionsTable').filter()" >
+                                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{teamController.all}" var="team" itemValue="#{team.id}" itemLabel="#{team.name}"/>
+                                        </p:selectOneMenu>
                                     </f:facet>
+                                    <h:outputText value="#{ques.team.name}" />
+                                </p:column>
 
-                                    <p:column filterBy="#{ques.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
-                                        <h:outputText value="#{ques.id}" />
-                                    </p:column>
-
-                                    <p:column filterBy="#{ques.introduce}" headerText="Introduce" footerText="" filterMatchMode="contains">
-                                        <h:outputText value="#{ques.introduce}" />
-                                    </p:column>
-                                    
-                                    <p:column filterBy="#{ques.diffculty}" headerText="Diffculty" footerText="" filterMatchMode="contains">
-                                        <h:outputText value="#{ques.diffculty}" />
-                                    </p:column>
-                                    
-                                    <p:column filterBy="#{ques.question}" headerText="Question" footerText="" filterMatchMode="contains">
-                                        <h:outputText value="#{ques.question}" />
-                                    </p:column>
-
-                                    <p:column filterBy="#{ques.team.id}" headerText="Team" footerText="exact" filterMatchMode="exact">
-                                        <f:facet name="filter">
-                                            <p:selectOneMenu onchange="PF('questionsTable').filter()" >
-                                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                                                <f:selectItems value="#{teamController.all}" var="team" itemValue="#{team.id}" itemLabel="#{team.name}"/>
-                                            </p:selectOneMenu>
-                                        </f:facet>
-                                        <h:outputText value="#{ques.team.name}" />
-                                    </p:column>
-
-                                    <p:column filterBy="#{ques.deadline}" headerText="EndTime" footerText="contains" 
-                                              filterMatchMode="contains">
-                                        <h:outputText value="#{ques.deadline}">
-                                            <f:convertDateTime pattern="yyyy-MM-dd" type="currency"/>
-                                        </h:outputText> 
-                                    </p:column>
-                                </p:dataTable>
-                            </h:form>
-                        </div>
+                                <p:column filterBy="#{ques.deadline}" headerText="EndTime" footerText="contains" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{ques.deadline}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" type="currency"/>
+                                    </h:outputText> 
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
                     </div>
                 </div><!--/.row-->
             </div>	<!--/.main-->
-            <script src="../assets/js/jquery-1.11.1.min.js"></script>
-            <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-            <script src="../assets/js/chart.min.js"></script>
-            <script src="../assets/js/chart-data.js"></script>
-            <script src="../assets/js/easypiechart.js"></script>
-            <script src="../assets/js/easypiechart-data.js"></script>
-            <script src="../assets/bootstrap/js/bootstrap-datepicker.js"></script>
+            <script src="assets/js/jquery-1.11.1.min.js"></script>
+            <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+            <script src="assets/js/chart.min.js"></script>
+            <script src="assets/js/chart-data.js"></script>
+            <script src="assets/js/easypiechart.js"></script>
+            <script src="assets/js/easypiechart-data.js"></script>
+            <script src="assets/bootstrap/js/bootstrap-datepicker.js"></script>
             <script>
-                $('#calendar').datepicker({
-                });
+                                                $('#calendar').datepicker({
+                                                });
 
-                !function ($) {
-                    $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
-                        $(this).find('em:first').toggleClass("glyphicon-minus");
-                    });
-                    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
-                }(window.jQuery);
+                                                !function ($) {
+                                                    $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+                                                        $(this).find('em:first').toggleClass("glyphicon-minus");
+                                                    });
+                                                    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+                                                }(window.jQuery);
 
-                $(window).on('resize', function () {
-                    if ($(window).width() > 768)
-                        $('#sidebar-collapse').collapse('show')
-                })
+                                                $(window).on('resize', function () {
+                                                    if ($(window).width() > 768)
+                                                        $('#sidebar-collapse').collapse('show')
+                                                })
             </script>
         </h:body>
     </f:view>

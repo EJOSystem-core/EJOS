@@ -160,47 +160,33 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-12 col-lg-12 tab-pane" role="tablepanel" id="home">
                         <h:form>
-                            <p:dataTable var="ques" value="#{questionController.findAll()}" widgetVar="questionsTable"
-                                         emptyMessage="No question found with given criteria" filteredValue="#{questionController.filteredQuestions}">
-
+                            <p:dataTable var="achieve" value="#{achieveController.findAll()}" widgetVar="achievementsTable"
+                                         emptyMessage="No achievement found with given criteria" filteredValue="#{achieveController.filteredQuestions}">
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('questionsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        <p:inputText id="globalFilter" onkeyup="PF('achievetionsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                     </p:outputPanel>
                                 </f:facet>
 
-                                <p:column filterBy="#{ques.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
-                                    <h:outputText value="#{ques.id}" />
+                                <p:column filterBy="#{achieve.id}" headerText="Id" filterMatchMode="contains">
+                                    <h:outputText value="#{achieve.id}" />
+                                </p:column>
+                                
+                                <p:column filterBy="#{achieve.question.question}" headerText="Question" filterMatchMode="contains">
+                                    <h:outputText value="#{achieve.question.question}" />
                                 </p:column>
 
-                                <p:column filterBy="#{ques.introduce}" headerText="Introduce" footerText="contains" filterMatchMode="contains">
-                                    <h:outputText value="#{ques.introduce}" />
+                                <p:column filterBy="#{achieve.student.name}" headerText="StuName" filterMatchMode="contains">
+                                    <h:outputText value="#{achieve.student.name}" />
+                                </p:column>
+                                
+                                <p:column filterBy="#{achieve.result}" headerText="Result" filterMatchMode="contains">
+                                    <h:outputText value="#{achieve.result}" />
                                 </p:column>
 
-                                <p:column filterBy="#{ques.diffculty}" headerText="Diffculty" footerText="" filterMatchMode="contains">
-                                    <h:outputText value="#{ques.diffculty}" />
-                                </p:column>
-
-                                <p:column filterBy="#{ques.question}" headerText="Question" footerText="contains" filterMatchMode="contains">
-                                    <h:outputText value="#{ques.question}" />
-                                </p:column>
-
-                                <p:column filterBy="#{ques.team.id}" headerText="Team" footerText="exact" filterMatchMode="exact">
-                                    <f:facet name="filter">
-                                        <p:selectOneMenu onchange="PF('questionsTable').filter()" >
-                                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                                            <f:selectItems value="#{teamController.all}" var="team" itemValue="#{team.id}" itemLabel="#{team.name}"/>
-                                        </p:selectOneMenu>
-                                    </f:facet>
-                                    <h:outputText value="#{ques.team.name}" />
-                                </p:column>
-
-                                <p:column filterBy="#{ques.deadline}" headerText="EndTime" footerText="contains" 
-                                          filterMatchMode="contains">
-                                    <h:outputText value="#{ques.deadline}">
-                                        <f:convertDateTime pattern="yyyy-MM-dd" type="currency"/>
-                                    </h:outputText> 
+                                <p:column filterBy="#{achieve.score}" headerText="Score" filterMatchMode="contains">
+                                    <h:outputText value="#{achieve.score}" />
                                 </p:column>
                             </p:dataTable>
                         </h:form>
