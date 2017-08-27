@@ -23,4 +23,4 @@ PR
 
 
 [![Build Status](https://travis-ci.org/EJOSystem-core/EJOS.svg?branch=master)](https://travis-ci.org/EJOSystem-core/EJOS)
-
+[![Coverage Status](https://coveralls.io/repos/github/EJOSystem-core/EJOS/badge.svg?branch=master)](https://coveralls.io/github/EJOSystem-core/EJOS?branch=master)

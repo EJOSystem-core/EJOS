@@ -481,10 +481,11 @@ public class HandInManager implements Serializable {
 									currentQuestion, currentUser);
 						   achievementService.create(ach);
 						}
+						utx.commit();
 				} catch (Exception e) {
 						e.printStackTrace();
 				} finally {
-					utx.commit();
+					
 				}
 
 	}
@@ -525,7 +526,7 @@ public class HandInManager implements Serializable {
 	}
 
 	private String constitutePath(){
-		String dir="/home/huanlu/ejosData/";
+		String dir="/home/gaoyisheng/ejosData/";
 		String path=dir+currentUser.getId()+"/"+currentQuestion.getId()+"/";
 		return path;
 	}
