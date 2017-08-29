@@ -321,7 +321,8 @@ public class HandInManager implements Serializable {
 	}
 
 	private String constitutePath(){
-		String dir="/home/gaoyisheng/ejosData/";
+//		String dir="/home/gaoyisheng/ejosData/";
+		String dir="$HOME/ejosData/";
 		String path=dir+currentUser.getId()+"/"+currentQuestion.getId()+"/";
 		return path;
 	}
