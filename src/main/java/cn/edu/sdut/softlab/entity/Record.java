@@ -21,7 +21,7 @@ import java.util.Date;
     ,
                 @NamedQuery(name = "Record.findByStuIdAndStatus", query = "SELECT r FROM Record r WHERE r.studentId = :stu_id AND r.status = :status")
     ,
-                @NamedQuery(name = "Record.findByStuIdAndQuestion", query = "SELECT r FROM Record r WHERE r.questionId = questionId AND r.studentId = stu_id")})
+                @NamedQuery(name = "Record.findByStuIdAndQuestion", query = "SELECT r FROM Record r WHERE r.questionId = :questionId AND r.studentId = :stuId")})
 public class Record implements Serializable {
 
     private static final long serialVersionUID = 1L;

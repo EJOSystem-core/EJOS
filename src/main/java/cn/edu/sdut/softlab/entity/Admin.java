@@ -38,7 +38,7 @@ public class Admin implements Serializable, User {
     private String password;
 
     //@Transient
-    public String level;
+    private String level;
 
     public Admin() {
     }
@@ -75,12 +75,10 @@ public class Admin implements Serializable, User {
         this.password = password;
     }
 
-    @Override
     public void setLevel(String level) {
         this.level = level;
     }
 
-    @Override
     public String getLevel() {
         return this.level;
     }

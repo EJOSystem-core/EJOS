@@ -54,7 +54,7 @@ public class Student implements Serializable, User {
     private Team team;
     
     //@Transient
-    public String level;
+    private String level;
 
     public Student() {
     }
@@ -95,6 +95,15 @@ public class Student implements Serializable, User {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getLevel(){
+        return this.level;
+    }
+
 
     public String getPassword() {
         return this.password;
@@ -227,16 +236,6 @@ public class Student implements Serializable, User {
         result = prime * result + ((studentNum == null) ? 0 : studentNum.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
-    }
-
-    @Override
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-   @Override
-    public String getLevel(){
-        return this.level;
     }
 
     @Override

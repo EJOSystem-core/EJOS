@@ -47,7 +47,7 @@ public class Teacher implements Serializable, User {
     private Set<Team> teams;
 
     //@Transient
-    public String level;
+    private String level;
 
     public Teacher() {
     }
@@ -92,6 +92,14 @@ public class Teacher implements Serializable, User {
         this.teacherNum = teacherNum;
     }
 
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getLevel() {
+        return this.level;
+    }
+    
     public BigInteger getTel() {
         return this.tel;
     }
@@ -122,16 +130,6 @@ public class Teacher implements Serializable, User {
         return team;
     }
 
-    @Override
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    @Override
-    public String getLevel() {
-        return this.level;
-    }
-    
     @Override
     public boolean equals(Object other) {
 
