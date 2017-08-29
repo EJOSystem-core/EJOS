@@ -37,7 +37,7 @@ public class Admin implements Serializable, User {
     @Size(max = 16)
     private String password;
 
-    //@Transient
+    @Transient
     private String level;
 
     public Admin() {

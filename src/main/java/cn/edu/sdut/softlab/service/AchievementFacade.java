@@ -21,7 +21,7 @@ public class AchievementFacade extends AbstractFacade<Achievement> {
         super(Achievement.class);
     }
 
-    public Achievement findByQuestionAndStudent(Question question, Student stu) {
+    public Achievement findByQuestionAndStudent(Question question, Student stu){
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("question", question);
         parameters.put("student", stu);

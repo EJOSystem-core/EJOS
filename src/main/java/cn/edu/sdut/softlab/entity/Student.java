@@ -53,7 +53,7 @@ public class Student implements Serializable, User {
     @ManyToOne
     private Team team;
     
-    //@Transient
+    @Transient
     private String level;
 
     public Student() {
