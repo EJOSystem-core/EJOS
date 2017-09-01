@@ -63,7 +63,7 @@ public class HandInManager implements Serializable {
 
 	@Inject
 	LoginController loginController;
-	
+
 	@Inject
 	AchievementFacade achievementService;
 
@@ -73,11 +73,11 @@ public class HandInManager implements Serializable {
 	private Student currentUser;// = (Student) loginController.getCurrentUser();// 当前用户
 
 	@PostConstruct
-	public void init(){
+	public void init() {
 		Student s = (Student) loginController.getCurrentUser();
 		this.currentUser = s;
 	}
-	
+
 	@Inject
 	FacesContext facesContext;
 
@@ -98,7 +98,6 @@ public class HandInManager implements Serializable {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
-
 
 	public Question getCurrentQuestion() {
 		return currentQuestion;
@@ -122,7 +121,6 @@ public class HandInManager implements Serializable {
 
 	private Achievement achie;
 
-
 	/**
 	 * ********************************************************************************
 	 * core 3/3 保存\编译。并退出。 保存到数据库=<<achievement>>，保存到文件。返回至列表页
@@ -138,154 +136,145 @@ public class HandInManager implements Serializable {
 	 *
 	 * 0x01:不把编译结果返回到页面，直接跳转到OK页面
 	 */
-
 	/**
-	 * 一键编译拿到结果
-	 * 2017-08-11
+	 * 一键编译拿到结果 2017-08-11
 	 */
-	public void oneBtnGetResult() throws Exception{
-		//保存
+	public void oneBtnGetResult() throws Exception {
+		// 保存
 		File dirPath = new File(constitutePath());
-		   if(!dirPath.exists()){  //如果目录不存在
-				dirPath.mkdirs();
+		if (!dirPath.exists()) { // 如果目录不存在
+			dirPath.mkdirs();
+		}
+
+		// 读取文件内容，并返回到前台
+		String result = "";
+		String errresult = "";
+		File sourceFile = new File(constitutePath() + expReport.getClassName() + ".java");// 保存源代码
+
+		try {
+
+			if (sourceFile.exists()) {
+				sourceFile.delete();
 			}
 
-		   //读取文件内容，并返回到前台
-		   String result = "";
-	       String errresult = "";
-			File sourceFile = new File( constitutePath() + expReport.getClassName() +".java");//保存源代码
+			FileWriter fr = new FileWriter(sourceFile); // 将文件保存起来
+			BufferedWriter bw = new BufferedWriter(fr);
 
+			// 除标签
+			String writeString = expReport.getAnswerText().replaceAll("<[^>]*>", "").replaceAll("&nbsp;", "");
+
+			bw.write(writeString);// 将获取的代码内容存到文件中
+			bw.close();
+			fr.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+
+		} // save done
+
+		// 编译
+		log.info("调用compileJava()");
+		Runtime runtime = Runtime.getRuntime();
+		try {
+			// 将编译的错误保存下来 2>>
+			String cmdCompile = "javac " + expReport.getClassName() + ".java 2> err.txt";
+
+			String[] cmdarray = { "/bin/sh", "-c", cmdCompile };
 			try {
+				runtime.exec(cmdarray, null, dirPath).waitFor();
 
-			    if(sourceFile.exists()){
-			      sourceFile.delete();
-			     }
-
-			    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
-			    BufferedWriter bw = new BufferedWriter(fr);
-
-			     //除标签
-			    String writeString = expReport.getAnswerText().replaceAll("<[^>]*>", "").replaceAll("&nbsp;","");
-
-			    bw.write(writeString);//将获取的代码内容存到文件中
-			    bw.close();
-			    fr.close();
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-
-			}//save done
-
-		//编译
-			log.info("调用compileJava()");
-			Runtime runtime = Runtime.getRuntime();
-			try {
-				//将编译的错误保存下来 2>>
-				String cmdCompile = "javac " + expReport.getClassName() + ".java 2> err.txt";
-
-				String[] cmdarray = {
-						"/bin/sh",
-						"-c",
-						cmdCompile
-						};
 				try {
-					runtime.exec(cmdarray,null,dirPath).waitFor();
 
-					try {
-
-						File errFile = new File(constitutePath()+"err.txt");
-						if (!errFile.exists()) {
-							//如果文件不存在，创建一个文件
-							errFile.createNewFile();
-						}
-
-			         InputStreamReader readerr = new InputStreamReader(new FileInputStream(errFile));//考虑到编码格式
-			         BufferedReader bufferedReader = new BufferedReader(readerr);
-			         String errline = null;
-			         while((errline = bufferedReader.readLine()) != null){
-			        	   errresult = errresult + "\n" + errline;
-					  }
-
-			         readerr.close();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
+					File errFile = new File(constitutePath() + "err.txt");
+					if (!errFile.exists()) {
+						// 如果文件不存在，创建一个文件
+						errFile.createNewFile();
 					}
 
-
-
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-		//运行
-				try {
-					String cmd = "java " + expReport.getClassName() + " > output.txt";
-					String[] cmdarray = {
-							"/bin/sh",
-							"-c",
-							cmd
-							};
-					runtime.exec(cmdarray,null,dirPath).waitFor();
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-		//拿到返回值
-				try {
-					File resultFile = new File(constitutePath()+"output.txt");
-					if (!resultFile.exists()) {
-						//如果文件不存在，创建一个文件
-						resultFile.createNewFile();
+					InputStreamReader readerr = new InputStreamReader(new FileInputStream(errFile));// 考虑到编码格式
+					BufferedReader bufferedReader = new BufferedReader(readerr);
+					String errline = null;
+					while ((errline = bufferedReader.readLine()) != null) {
+						errresult = errresult + "\n" + errline;
 					}
 
-		         InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));//考虑到编码格式
-		         BufferedReader bufferedReader = new BufferedReader(read);
-		         String line = null;
-		         if((line = bufferedReader.readLine()) != null){
-		        	 result=line;
-		           }
-		         while((line = bufferedReader.readLine()) != null){
-					     result = result + "\n" + line;
-					     log.info(result);
-					}
-
-		      read.close();
+					readerr.close();
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-				result = errresult + result;
-				expReport.setResult(result);//返回，并由button刷新到前台
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 运行
+		try {
+			String cmd = "java " + expReport.getClassName() + " > output.txt";
+			String[] cmdarray = { "/bin/sh", "-c", cmd };
+			runtime.exec(cmdarray, null, dirPath).waitFor();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// 拿到返回值
+		try {
+			File resultFile = new File(constitutePath() + "output.txt");
+			if (!resultFile.exists()) {
+				// 如果文件不存在，创建一个文件
+				resultFile.createNewFile();
+			}
+
+			InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));// 考虑到编码格式
+			BufferedReader bufferedReader = new BufferedReader(read);
+			String line = null;
+			if ((line = bufferedReader.readLine()) != null) {
+				result = line;
+			}
+			while ((line = bufferedReader.readLine()) != null) {
+				result = result + "\n" + line;
+				log.info(result);
+			}
+
+			read.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		result = errresult + result;
+		expReport.setResult(result);// 返回，并由button刷新到前台
 	}
 
 	public void handIn() {
 		try {
 			utx.begin();
-     	    Achievement ach = new Achievement(
-	                  	expReport.getAnswerText(),
-							constitutePath(),
-							expReport.getResult(),
-							calculateScore(expReport.getResult(),currentQuestion.getResult()),
-							currentQuestion, 
-							currentUser);
+			Achievement ach = new Achievement(
+					expReport.getAnswerText(), 
+					constitutePath(),
+					expReport.getResult(),
+					calculateScore(),
+					currentQuestion, 
+					currentUser);
 			achievementService.create(ach);
+			
+			
+			
 			utx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
-	
+
 	/**
 	 * @return the achie
 	 */
@@ -317,23 +306,24 @@ public class HandInManager implements Serializable {
 	}
 
 	public void selectedChanged(ValueChangeEvent event) {
-	   facesContext.addMessage(null, new FacesMessage("当前问题是： " + event.getNewValue().toString()));
+		facesContext.addMessage(null, new FacesMessage("当前问题是： " + event.getNewValue().toString()));
 	}
 
-	private String constitutePath(){
-//		String dir="/home/gaoyisheng/ejosData/";
-		String dir="$HOME/ejosData/";
-		String path=dir+currentUser.getId()+"/"+currentQuestion.getId()+"/";
-		return path;
+	private String constitutePath() {
+//		可以运行脚本获取当前用户,但是太不合理了. $USER可以手动替换任意用户名,部署的时候改为服务器用户名即可.
+//		return "/home/$USER/ejosData/" + currentUser.getId() + "/" + currentQuestion.getId() + "/";
+		
+		//这个目录是在$wildfly_home目录下
+		return "ejosData/" + currentUser.getId() + "/" + currentQuestion.getId() + "/";
 	}
 
-	//计算成绩的 算法，是什么好呢？
-	private int calculateScore(String result,String answerResult){
-
-		if(result.equals(answerResult)){
+	// 计算成绩的 算法，是什么好呢？
+	private int calculateScore() {
+		
+		//compare two result
+		if (expReport.getResult().equals(currentQuestion.getResult())) {
 			return 80;
-		}
-		else{
+		} else {
 			return 50;
 		}
 
